@@ -18,13 +18,12 @@ def main():
                         update_end_line = 0
                         has_comment = False
                         for i, line in enumerate(lines):
-                            if "// Update is called" in line:
-                                has_comment = True
-
-                            if"void Update" in line:
+                            if "void Update" in line:
                                 has_update = True
                                 update_start_line = i
-                            # if has_update and "{" in line:
+
+                                if "// Update is called" in lines[i-1]:
+                                    has_comment = True
 
                             if has_update and "}" in line:
                                 update_end_line = i
@@ -41,7 +40,7 @@ def main():
                                 print(filename,"has empty update")
                                 csfile.seek(0)
                                 _lines = lines[:]
-                                _lines[update_start_line -1 * has_comment:update_end_line+1:] = []
+                                _lines[update_start_line - 1 * has_comment:update_end_line+1:] = []
                                 csfile.writelines(_lines)
                                 csfile.truncate()
 
